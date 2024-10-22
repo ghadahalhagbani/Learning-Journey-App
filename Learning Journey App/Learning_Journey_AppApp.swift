@@ -12,6 +12,7 @@ struct Learning_Journey_AppApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .preferredColorScheme(.dark)
         }
     }
 }
