@@ -9,10 +9,14 @@ import SwiftUI
 
 @main
 struct Learning_Journey_AppApp: App {
+    @StateObject private var userData = UserData()
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(userData)
                 .preferredColorScheme(.dark)
         }
     }
 }
+

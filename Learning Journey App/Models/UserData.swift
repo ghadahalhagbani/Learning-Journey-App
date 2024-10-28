@@ -8,8 +8,8 @@
 import Foundation
 
 class UserData: ObservableObject {
-    @Published var goal: String = "Default Goal"
-    @Published var selectedDuration: String = "Default Duration"
+    @Published var goal: String = ""
+    @Published var selectedDuration: String = ""
     @Published var learnedDays: Int = 0
     @Published var frozenDays: Int = 0
 }

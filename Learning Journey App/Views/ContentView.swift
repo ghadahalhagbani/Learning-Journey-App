@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ContentView: View {
     @ObservedObject private var viewModel = ContentViewModel()
-    
+    @EnvironmentObject var userData: UserData
     
     var body: some View {
         NavigationView{
@@ -25,21 +25,16 @@ struct ContentView: View {
                 HStack{ //fake hstack
                     VStack(alignment: .leading, spacing: 8) {
                         Text("Hello Learner!")
-                            .font(.largeTitle)
-                            .fontWeight(.bold)
+                            .font(.system(size: 32,weight: .bold))
                             .foregroundColor(.white)
                         
                         Text("This app will help you learn everyday")
                             .foregroundColor(.gray)
-                        
-                        
                     }
                     Spacer()
                 }
                 HStack{ //fake hstack
                     VStack(alignment: .leading, spacing: 0) {
-                        
-                        
                         Text("I want to learn")
                             .foregroundColor(.white)
                             .font(.headline)
@@ -54,10 +49,10 @@ struct ContentView: View {
                 }
                 HStack{ //fake hstack
                     VStack(alignment: .leading, spacing: 12) {
-                        
                         Text("I want to learn it in a")
                             .foregroundColor(.white)
                             .font(.headline)
+                        
                         HStack(spacing: 12) {
                             ForEach(["Week", "Month", "Year"], id: \.self) { duration in
                                 Button(action: {
@@ -72,63 +67,27 @@ struct ContentView: View {
                                 }
                             }
                         }
-                        /* Button(action: {
-                         selectedDuration = "Week"
-                         }) {
-                         Text("Week").font(.system(size:16))
-                         .frame(width: 68, height:37)
-                         .background(selectedDuration == "Week" ? Color.orange : Color.gray.opacity(0.3))
-                         .cornerRadius(8)
-                         .foregroundColor(selectedDuration == "Week" ? Color.black : Color.orange)
-                         }
-                         Button(action: {
-                         selectedDuration = "Month"
-                         }) {
-                         Text("Month").font(.system(size:16))
-                         .frame(width: 68, height:37)
-                         .background(selectedDuration == "Month" ? Color.orange : Color.gray.opacity(0.3))
-                         .cornerRadius(8)
-                         .foregroundColor(selectedDuration == "Month" ? Color.black : Color.orange)
-                         }
-                         Button(action: {
-                         selectedDuration = "Year"
-                         }) {
-                         Text("Year").font(.system(size:16))
-                         .frame(width: 68, height:37)
-                         .background(selectedDuration == "Year" ? Color.orange : Color.gray.opacity(0.3))
-                         .cornerRadius(8)
-                         .foregroundColor(selectedDuration == "Year" ? Color.black : Color.orange)
-                         }
-                         }*/
-                        
-                        Spacer()
                     }
+                    Spacer()
                 }
-                NavigationLink(destination: HomePageView().environmentObject(viewModel.userData))
+                NavigationLink(destination: HomePageView().environmentObject(userData))
                 {
                     Text("Start →")
-                        .font(.system(size:16))
+                        .font(.system(size:16, weight: .semibold))
                         .frame(width: 151, height:52)
                         .background(Color.orange)
                         .foregroundColor(.black)
                         .cornerRadius(8)
-                        
                 }
-                .onTapGesture {
-                    viewModel.startLearning()
-                }
+                .simultaneousGesture(TapGesture().onEnded {
+                    viewModel.startLearning(userData: userData)
+                })
                 .padding()
-                
-                
             }
-            
             .padding()
         }
-        
     }
 }
-
-
 
 
 

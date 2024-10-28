@@ -9,10 +9,9 @@ import SwiftUI
 
 struct UpdatePage: View {
     @ObservedObject private var viewModel = UpdatePageViewModel()
-    
+    @EnvironmentObject var userData: UserData
     
     var body: some View {
-        NavigationView{
             VStack(alignment: .leading, spacing: 12){
             VStack (alignment: .leading, spacing: 0){
                 Text("I want to learn")
@@ -42,38 +41,8 @@ struct UpdatePage: View {
                                     .foregroundColor(viewModel.selectedDuration == duration ? Color.black : Color.orange)
                             }
                         }
-                        
-                       /*
-                        Button(action: {
-                            selectedDuration = "Week"
-                        }) {
-                            Text("Week").font(.system(size:16))
-                                .frame(width: 68, height:37)
-                                .background(selectedDuration == "Week" ? Color.orange : Color.gray.opacity(0.3))
-                                .cornerRadius(8)
-                                .foregroundColor(selectedDuration == "Week" ? Color.black : Color.orange)
-                        }
-                        Button(action: {
-                            selectedDuration = "Month"
-                        }) {
-                            Text("Month").font(.system(size:16))
-                                .frame(width: 68, height:37)
-                                .background(selectedDuration == "Month" ? Color.orange : Color.gray.opacity(0.3))
-                                .cornerRadius(8)
-                                .foregroundColor(selectedDuration == "Month" ? Color.black : Color.orange)
-                        }
-                        Button(action: {
-                            selectedDuration = "Year"
-                        }) {
-                            Text("Year").font(.system(size:16))
-                                .frame(width: 68, height:37)
-                                .background(selectedDuration == "Year" ? Color.orange : Color.gray.opacity(0.3))
-                                .cornerRadius(8)
-                                .foregroundColor(selectedDuration == "Year" ? Color.black : Color.orange)
-                        }
-                    */
                     }
-                    }
+                }
                     Spacer()
                     .toolbar{
                         ToolbarItem(placement: .navigationBarLeading) {
@@ -86,7 +55,6 @@ struct UpdatePage: View {
                                 Text("Back")
                                     .font(.system(size: 17))
                                     .foregroundColor(.orange)
-                                    .accentColor(.orange)
                             }
                         }
                         ToolbarItem(placement: .principal) {
@@ -97,7 +65,7 @@ struct UpdatePage: View {
                         ToolbarItem(placement: .navigationBarTrailing) {
                             Button(action: {
                                 // Update action
-                                viewModel.updateGoal()
+                                viewModel.updateGoal(userData: userData)
                             }) {
                                 Text("Update")
                                     .font(.system(size: 17,weight: .semibold))          .foregroundColor(.orange)
@@ -105,11 +73,14 @@ struct UpdatePage: View {
                         }
                     }
             }
-            
             .padding()
-        }
+            .navigationBarBackButtonHidden(true)
     }
 }
+
+
+
+
 
 #Preview {
     UpdatePage()

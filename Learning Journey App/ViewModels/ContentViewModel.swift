@@ -10,36 +10,36 @@ import SwiftUI
 class ContentViewModel: ObservableObject {
     @Published var goal: String = ""
     @Published var selectedDuration: String = ""
-    @EnvironmentObject var userData: UserData
 
-    func startLearning() {
+    func startLearning(userData: UserData) {
         userData.goal = goal
         userData.selectedDuration = selectedDuration
     }
 }
 
 
+
 class HomePageViewModel: ObservableObject {
-    @EnvironmentObject var userData: UserData
     
-    func logLearnedDay() {
+    func logLearnedDay(userData: UserData) {
         userData.learnedDays += 1
     }
     
-    func freezeDay() {
+    func freezeDay(userData: UserData) {
         userData.frozenDays += 1
     }
 }
 
 
+
 class UpdatePageViewModel: ObservableObject {
     @Published var goal: String = ""
     @Published var selectedDuration: String = ""
-    @EnvironmentObject var userData: UserData
 
-    func updateGoal() {
+    func updateGoal(userData: UserData) {
         userData.goal = goal
         userData.selectedDuration = selectedDuration
     }
 }
+
 

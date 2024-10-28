@@ -12,7 +12,6 @@ struct HomePageView: View {
     @ObservedObject private var viewModel = HomePageViewModel()
     
     var body: some View {
-        
             HStack {
                 VStack(alignment: .leading, spacing: 3) {
                     Text(getFormattedDate(Date()))
@@ -26,9 +25,7 @@ struct HomePageView: View {
                 }
                 
                 Spacer()
-                Button(action: {
-                    // Action for the update button
-                }) {
+                NavigationLink(destination: UpdatePage().environmentObject(userData)){
                     Text("🔥")
                         .font(.system(size: 24))
                         .background(Circle().fill(Color.gray.opacity(0.3)).frame(width: 44, height: 44))
@@ -38,11 +35,12 @@ struct HomePageView: View {
             VStack{
                 CalendarView()
             }
+            .padding()
             VStack{
                 Button(action: {
-                    viewModel.logLearnedDay()
+                    viewModel.logLearnedDay(userData: userData)
                 }) {
-                    /*ZStack{
+                    ZStack{
                         Circle()
                             .fill(Color.orange)
                             .frame(width: 300, height: 300)
@@ -51,45 +49,27 @@ struct HomePageView: View {
                             .font(.largeTitle)
                             .padding(.horizontal,100)
                             .bold()
-                    }*/
-                    //مهم بعدل هنا
-                    Text("Log today as Learned")
-                                        .font(.title2)
-                                        .foregroundColor(.black)
-                                        .frame(width: 250, height: 250)
-                                        .background(Color.orange)
-                                        .clipShape(Circle())
+                    }
                 }
-                
                 Button(action: {
-                    viewModel.freezeDay()
+                    viewModel.freezeDay(userData: userData)
                 }) {
-                    Text("Freeze day")
-                                        .font(.title3)
-                                        .foregroundColor(.blue)
-                                        .padding()
-                                        .background(Color.blue.opacity(0.1))
-                                        .cornerRadius(8)
-                    //مهم بعدل هنا
-                    /*ZStack{
+                    ZStack{
                         Rectangle()
-                            .fill(Color.blue)
+                            .fill(Color.freezeB)
                             .frame(width: 160, height: 50)
                             .cornerRadius(8)
                         Text("Freeze day")
-                            .foregroundColor(.freezeB)
+                            .foregroundColor(.blue)
                             .bold()
-                    }*/
+                    }
                 }
-                
-                
                 Text("\(userData.frozenDays) out of 6 freezes used")
                     .foregroundColor(.gray.opacity(0.4))
                 
             }
         .navigationBarBackButtonHidden(true)
     }
-        
 }
 /*
         // Log Button
@@ -118,12 +98,6 @@ private func getFormattedDate(_ date: Date) -> String {
     formatter.dateFormat = "EEEE, dd MMM" // Format: Day of week, day, month
     return formatter.string(from: date)
 }
-
-        
-       
-    
-
-
 
 
 
