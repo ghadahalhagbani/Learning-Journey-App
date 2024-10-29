@@ -10,6 +10,7 @@ import SwiftUI
 struct UpdatePage: View {
     @ObservedObject private var viewModel = UpdatePageViewModel()
     @EnvironmentObject var userData: UserData
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
             VStack(alignment: .leading, spacing: 12){
@@ -47,7 +48,7 @@ struct UpdatePage: View {
                     .toolbar{
                         ToolbarItem(placement: .navigationBarLeading) {
                             Button(action: {
-                                // Back action here
+                                dismiss()
                             }) {
                                 Image(systemName: "chevron.backward")
                                     .font(.system(size: 17,weight: .medium))

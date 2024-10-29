@@ -11,6 +11,9 @@ struct HomePageView: View {
     @EnvironmentObject var userData: UserData
     @ObservedObject private var viewModel = HomePageViewModel()
     
+    // Track learned and frozen dates
+        @State private var learnedDates: [Date: Bool] = [:]
+        @State private var frozenDates: [Date: Bool] = [:]
     var body: some View {
             HStack {
                 VStack(alignment: .leading, spacing: 3) {
@@ -33,38 +36,42 @@ struct HomePageView: View {
             }
             .padding()
             VStack{
-                CalendarView()
+                CalendarView(learnedDates: learnedDates, frozenDates: frozenDates)
             }
             .padding()
+        //Log Today as Learned Button
             VStack{
                 Button(action: {
                     viewModel.logLearnedDay(userData: userData)
+                    learnedDates[Calendar.current.startOfDay(for: Date())] = true
                 }) {
                     ZStack{
                         Circle()
-                            .fill(Color.orange)
-                            .frame(width: 300, height: 300)
-                        Text("Lod today as Learned")
-                            .foregroundColor(.black)
-                            .font(.largeTitle)
-                            .padding(.horizontal,100)
+                            .fill(viewModel.isTodayLearned ? Color.learnedCO : viewModel.isTodayFrozen ? Color.freezedCo : Color.orange)
+                            .frame(width: 320, height: 320)
+                        Text(viewModel.isTodayLearned ? "Learned Today" : viewModel.isTodayFrozen ? "Day Freezed" : "Log Today as Learned")
+                            .font(.system(size:41,weight: .semibold))
+                            .foregroundColor(viewModel.isTodayLearned ? Color.orange : viewModel.isTodayFrozen ? Color.blue : .black)
+                            .padding(.horizontal,90)
                             .bold()
                     }
                 }
+                //Freeze Day Button
                 Button(action: {
                     viewModel.freezeDay(userData: userData)
+                    frozenDates[Calendar.current.startOfDay(for: Date())] = true
                 }) {
                     ZStack{
                         Rectangle()
-                            .fill(Color.freezeB)
+                            .fill(viewModel.isTodayFrozen ? Color.gray5 : viewModel.isTodayLearned ? Color.gray5 : Color.freezeB)
                             .frame(width: 160, height: 50)
                             .cornerRadius(8)
                         Text("Freeze day")
-                            .foregroundColor(.blue)
+                            .foregroundColor(viewModel.isTodayFrozen ? .freezeGrey : viewModel.isTodayLearned ? Color.freezeGrey : .blue)
                             .bold()
                     }
                 }
-                Text("\(userData.frozenDays) out of 6 freezes used")
+                Text("\(userData.frozenDays) out of \(userData.freezeLimit) freezes used")
                     .foregroundColor(.gray.opacity(0.4))
                 
             }

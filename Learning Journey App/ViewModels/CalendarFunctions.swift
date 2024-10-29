@@ -10,6 +10,8 @@
 import Foundation
 
 extension Date {
+    
+        
     static var capitalizedFirstThreeLettersOfWeekdays: [String] {
         let calendar = Calendar.current
         let weekdays = calendar.shortWeekdaySymbols
