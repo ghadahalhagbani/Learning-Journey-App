@@ -9,11 +9,12 @@ import SwiftUI
 
 struct HomePageView: View {
     @EnvironmentObject var userData: UserData
-    @ObservedObject private var viewModel = HomePageViewModel()
+    @StateObject  var viewModel = HomePageViewModel()
+    //OBSERVED
     
-    // Track learned and frozen dates
         @State private var learnedDates: [Date: Bool] = [:]
         @State private var frozenDates: [Date: Bool] = [:]
+    
     var body: some View {
             HStack {
                 VStack(alignment: .leading, spacing: 3) {
@@ -22,7 +23,8 @@ struct HomePageView: View {
                         .font(.system(size: 14))
                     //.padding(.trailing, 240.0)
                     
-                    Text("Learning \(userData.goal)")                        .font(.system(size: 32))
+                    Text("Learning \(userData.goal)")
+                        .font(.system(size: 32))
                         .fontWeight(.bold)
                         .foregroundColor(.white)
                 }
@@ -42,8 +44,11 @@ struct HomePageView: View {
         //Log Today as Learned Button
             VStack{
                 Button(action: {
+                    
+                    print("is pressed")
                     viewModel.logLearnedDay(userData: userData)
                     learnedDates[Calendar.current.startOfDay(for: Date())] = true
+                    
                 }) {
                     ZStack{
                         Circle()
@@ -55,7 +60,8 @@ struct HomePageView: View {
                             .padding(.horizontal,90)
                             .bold()
                     }
-                }
+                }                    .disabled(viewModel.isTodayFrozen || viewModel.isTodayLearned)
+
                 //Freeze Day Button
                 Button(action: {
                     viewModel.freezeDay(userData: userData)
@@ -63,16 +69,17 @@ struct HomePageView: View {
                 }) {
                     ZStack{
                         Rectangle()
-                            .fill(viewModel.isTodayFrozen ? Color.gray5 : viewModel.isTodayLearned ? Color.gray5 : Color.freezeB)
+                            .fill(viewModel.isTodayFrozen || viewModel.isTodayLearned ? Color.gray5 : Color.freezeB)
                             .frame(width: 160, height: 50)
                             .cornerRadius(8)
                         Text("Freeze day")
-                            .foregroundColor(viewModel.isTodayFrozen ? .freezeGrey : viewModel.isTodayLearned ? Color.freezeGrey : .blue)
+                            .foregroundColor(viewModel.isTodayFrozen || viewModel.isTodayLearned ? .freezeGrey : .blue)
                             .bold()
                     }
                 }
+                .disabled(viewModel.isTodayLearned || viewModel.isTodayFrozen)
                 Text("\(userData.frozenDays) out of \(userData.freezeLimit) freezes used")
-                    .foregroundColor(.gray.opacity(0.4))
+                    .foregroundColor(.gray3)
                 
             }
         .navigationBarBackButtonHidden(true)

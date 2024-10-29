@@ -27,20 +27,21 @@ class HomePageViewModel: ObservableObject {
         // Reset streak after 32 hours
         if userData.timeSinceLastLearned > (32 * 60 * 60) {
             userData.resetStreak()
+            
         }
     }
     
     func logLearnedDay(userData: UserData) {
-        if isTodayLearned { return } // Prevent double logging
+        print("is call")
+        let today = Calendar.current.startOfDay(for: Date())
         userData.logLearnedDay()
         isTodayLearned = true
         isTodayFrozen = false
-        userData.streakCount += 1
-        userData.timeSinceLastLearned = 0 // Reset streak timer
     }
     
     func freezeDay(userData: UserData) {
-        if userData.frozenDays >= userData.freezeLimit { return } // Check freeze limit
+        print("is call")
+        let today = Calendar.current.startOfDay(for: Date())
         userData.freezeDay()
         isTodayFrozen = true
         isTodayLearned = false

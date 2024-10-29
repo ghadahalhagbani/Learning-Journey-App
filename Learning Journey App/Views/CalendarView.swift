@@ -38,7 +38,6 @@ struct CalendarView: View {
                         Spacer()
                         HStack(spacing: 28) {
                             Button(action: {
-                                // Move to the previous week
                                 date = Calendar.current.date(byAdding: .weekOfYear, value: -1, to: date) ?? date
                             }) {
                                 Image(systemName: "chevron.backward")
@@ -66,7 +65,6 @@ struct CalendarView: View {
                                 let calendar = Calendar.current
                                 let weekStart = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: date))!
                                 let day = calendar.date(byAdding: .day, value: index, to: weekStart)!
-                                
                                 let isToday = day == Calendar.current.startOfDay(for: Date())
                                 let isLearnedBefore = learnedDates[day] == true
                                 let isFrozenBefore = frozenDates[day] == true
@@ -105,7 +103,7 @@ struct CalendarView: View {
                     HStack(spacing: 60){
                         VStack{
                             HStack{
-                                Text("10🔥")
+                                Text("10 🔥")
                                     .font(.system(size: 24,weight: .semibold))
                             }
                             Text("Day streak")
@@ -117,7 +115,8 @@ struct CalendarView: View {
                             .frame(width: 1, height: 70)
                         VStack{
                             HStack{
-                                Text("2🧊")
+                                //Text("2\(UserData.freezeLimit)🧊")
+                                Text("2 🧊")
                                     .font(.system(size: 24,weight: .semibold))
                             }
                             Text("Day Freezed")
@@ -128,7 +127,7 @@ struct CalendarView: View {
                     .padding(.top,-2)
                 }
             }
-            .onAppear() {
+            .onAppear {
                 days = date.calendarDisplayDays
             }
             .onChange(of: date) {

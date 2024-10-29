@@ -48,7 +48,7 @@ struct UpdatePage: View {
                     .toolbar{
                         ToolbarItem(placement: .navigationBarLeading) {
                             Button(action: {
-                                dismiss()
+                                // Back action here
                             }) {
                                 Image(systemName: "chevron.backward")
                                     .font(.system(size: 17,weight: .medium))

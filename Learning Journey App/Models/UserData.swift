@@ -9,12 +9,15 @@ import Foundation
 
 class UserData: ObservableObject {
     @Published var goal: String = ""
-    @Published var selectedDuration: String = "" // Default duration
+    @Published var selectedDuration: String = "" // duration
     @Published var streakCount: Int = 0
     @Published var learnedDays: Int = 0
     @Published var frozenDays: Int = 0
     @Published var timeSinceLastLearned: TimeInterval = 0 // in seconds
     @Published var freezeLimit: Int = 2 // Based on duration
+    
+    @Published var learnedDates: [Date: Bool] = [:]
+    @Published var frozenDates: [Date: Bool] = [:]
 
     func resetStreak() {
         streakCount = 0
@@ -34,16 +37,19 @@ class UserData: ObservableObject {
     }
     
     func logLearnedDay() {
+        let today = Calendar.current.startOfDay(for: Date())
+        learnedDates[today] = true
+        frozenDates[today] = false // Remove freeze if it exists
         streakCount += 1
-        learnedDays += 1
-        timeSinceLastLearned = 0 // Reset time counter
+        print("Logged Learned Day") // Debug print
     }
 
     func freezeDay() {
+        let today = Calendar.current.startOfDay(for: Date())
+        frozenDates[today] = true
+        learnedDates[today] = false // Remove learned log if it exists
         frozenDays += 1
-        if frozenDays > freezeLimit {
-            frozenDays = freezeLimit // Prevents exceeding the limit
-        }
+        print("Logged Freeze Day") // Debug print
     }
 }
 
