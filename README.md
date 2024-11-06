@@ -13,7 +13,7 @@ Learning Journey is your personal app that helps make learning a part of your da
 - [🌟 Benefits of the App](#-benefits-of-the-app)
 - [📸 Screenshots](#-screenshots)
 - [🚀 Feature Development](#-feature-development)
-- [🖥️ Installation](#-installation)
+- [🖥️ Installation](#installation)
 - [📥 Contact Information](#-contact-information)
 
 ## 💡 Project Purpose
